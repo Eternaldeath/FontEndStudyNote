@@ -450,6 +450,238 @@ console.log(obj.hasOwnProperty('toString'));
 
 ```
 
+# 6.函数
+## 概述
+### 函数的声明
+1.function 命令
+```Javascript
+function printHello(s){
+	console.log(s);
+}
+
+print(5);
+
+```
+
+2.函数表达式
+```Javascript
+var hello = function(s){
+	console.log(s);
+};
+
+```
+可以有下面的写法
+```Javascript
+var he = function x(){
+	console.log(typeof x);
+}
+
+he();
+// 输出 function
+
+```
+<font color="red">Note：这些写法的作用是，一、匿名函数可以在内部调用自己；二、报错时方便查找错误</font>
+记住，在外部调用 x()，是无效的。
+
+3.构造函数的方式
+不建议使用，这里不介绍
+
+### 函数的重复声明
+```Javascript
+function f() {
+  console.log(1);
+}
+f() // 2
+
+function f() {
+  console.log(2);
+}
+f() // 2
+
+```
+后面的声明会覆盖前面的声明。
+
+### return 语句
+	return 语句返回函数的值，即使后面还有语句也不执行
+```Javascript
+function add(x,y){
+	return x+y;
+	console.log(x*y);
+}
+
+add(5,4);
+// 输出 9，console 语句不执行
+
+```
+
+## 函数的属性和方法
+### name 属性
+	name 属性用于返回函数名
+1.函数声明方式创建的函数
+```Javascript
+function f1(){
+
+}
+
+f1.name // 输出 f1
+```
+
+2.变量名创建的匿名函数
+```Javascript
+var f2 = function(){};
+f2.name; // 输出 f2
+
+```
+3.变量名创建的具名函数
+```Javascript
+var f3 = function ff3(){};
+f3.name; // 输出 ff3
+
+```
+
+### length 属性
+	length 属性返回函数定义中参数的个数
+```Javascript
+function f1(a,b){};
+f1.length; // 返回 2
+
+```
+
+### toString() 
+	用于返回函数的源码
+```Javascript
+function f1(a,b){};
+f1.toString;
+
+// 输出
+// ƒ toString() { [native code] }
+
+```
+
+## 函数作用域
+### 定义
+	同名变量，内部的变量会覆盖外部的变量
+```Javascript
+var v = 1;
+function f(){
+	var v = 2;
+	console.log(v);
+}
+
+f(); // 输出 2
+
+```
+
+### 函数内部变量提升
+```Javascript
+function foo(x) {
+  if (x > 100) {
+    var tmp = x - 100;
+  }
+}
+
+// 等同于
+function foo(x) {
+  var tmp;
+  if (x > 100) {
+    tmp = x - 100;
+  };
+}
+ // 相当于函数提前声明
+```
+
+### 函数本身的作用域
+	函数本身的作用域是定义时的函数的作用域
+```Javascript
+var a = 1;
+var y = function(){
+	console.log(a);
+}
+
+function myfunction(){
+	var a = 2;
+	y();
+}
+
+myfunction(); // 输出 1，myfunction() 中的 y() 是绑定到外层的函数表达式的 y 中的。
+
+```
+
+## 参数
+### 参数的省略
+	JS 中参数的省略是允许的，省略的参数当作 undefined 处理。但是需要注意，如果后面有参数，而省略前面的参数是不被允许的，必须使用 undefined 替换前面的参数，如下。
+```Javascript
+function f( , , a , b){} // 错误
+function f(undefined,undefined,a,b){} // 正确
+
+```
+
+### 传递方式
+1.原始类型的传递
+	原始类型（布尔值，数值等）遵循值拷贝的方式，所以在函数内改变变量的值，**不会**引起外部变量的值的变化。
+
+```Javascript
+var person = "zhangsan";
+function changename(person){
+	person = "lisi";
+}
+
+changename(person);
+person; // 输出 zhangsan
+
+```
+
+2.复合类型
+	复合类型（数组，对象，其他函数等）遵循地址拷贝的方式，所以在函数内改变变量的值，引起外部变量的值的变化。
+```Javascript
+var obj = {p:"hi"};
+function changeContent(obj){
+	obj.p = "hello";
+}
+
+changeContent(obj);
+obj.p;
+// 输出 hello
+
+```
+
+<font color="red">Note：注意如果是对复合类型的整体替换，则不会改变本来的值，而是对整体替换的内容指向新的地址，如下所示</font>
+```Javascript
+var obj = {p:"hi"};
+function changeContent(obj){
+	obj.p = "hello";
+}
+
+changeContent(obj);
+obj.p;
+// 输出 hi
+
+```
+
+
+
+
+
+
+	
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
